@@ -1,6 +1,6 @@
 var express = require('express');
 const { save } = require("../save_json");
-const authenticateAdmin  = require('../middleware/authenticateAdmin');
+const authenticateAdmin  = require('../authenticateAdmin');
 const participantsData = require('../participants.json');
 
 var router = express.Router();

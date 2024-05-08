@@ -1,7 +1,7 @@
 const fs = require('fs');
 const auth = require('basic-auth');
 
-const users = JSON.parse(fs.readFileSync('../users.json'));
+const users = JSON.parse(fs.readFileSync('./users.json'));
 
 const authenticateAdmin = (req, res, next) => {
   try {
