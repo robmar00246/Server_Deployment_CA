@@ -1,6 +1,7 @@
 var express = require('express');
 const { save } = require("../save_json");
-var participantsData = require('../participants.json');
+const authenticateAdmin  = require('../authenticateAdmin');
+const participantsData = require('../participants.json');
 
 var router = express.Router();
 
@@ -27,11 +28,11 @@ const isValidDateFormat = (date) => {
   return true;
 };
 
-router.get('/', function(req, res, next) {
+router.get('/', authenticateAdmin, function(req, res, next) {
   res.json(participantsData)
 });
 
-router.get('/details', function(req, res, next) {
+router.get('/details', authenticateAdmin, function(req, res, next) {
   const details = participantsData.participants.map(participant => ({
     firstname: participant.Participant.firstname,
     lastname: participant.Participant.lastname,
@@ -41,7 +42,7 @@ router.get('/details', function(req, res, next) {
   res.json(details);
 });
 
-router.get('/details/:email', function(req, res, next) {
+router.get('/details/:email', authenticateAdmin, function(req, res, next) {
   const email = req.params.email;
 
   const participant = participantsData.participants.find(participant => participant.Participant.email === email);
@@ -58,7 +59,7 @@ router.get('/details/:email', function(req, res, next) {
   }
 });
 
-router.get('/work/:email', function(req, res, next) {
+router.get('/work/:email', authenticateAdmin, function(req, res, next) {
   const email = req.params.email;
 
   const participant = participantsData.participants.find(participant => participant.Participant.email === email);
@@ -75,7 +76,7 @@ router.get('/work/:email', function(req, res, next) {
   }
 });
 
-router.get('/home/:email', function(req, res, next) {
+router.get('/home/:email', authenticateAdmin, function(req, res, next) {
   const email = req.params.email;
 
   const participant = participantsData.participants.find(participant => participant.Participant.email === email);
@@ -91,7 +92,7 @@ router.get('/home/:email', function(req, res, next) {
   }
 });
 
-router.post('/add', function(req, res, next) {
+router.post('/add', authenticateAdmin, function(req, res, next) {
 
   const { email, firstname, lastname, dob, companyname, salary, currency, country, city } = req.body;
 
@@ -132,7 +133,7 @@ router.post('/add', function(req, res, next) {
   res.status(201).json({ message: 'Participant added successfully', participant: newParticipant });
 });
 
-router.put('/:email', function(req, res, next) {
+router.put('/:email', authenticateAdmin, function(req, res, next) {
   const email = req.params.email;
 
   const { firstname, lastname, dob, companyname, salary, currency, country, city } = req.body;
@@ -181,7 +182,7 @@ router.put('/:email', function(req, res, next) {
   res.json({ message: 'Participant updated successfully' });
 });
 
-router.delete('/:email', function(req, res, next) {
+router.delete('/:email', authenticateAdmin, function(req, res, next) {
   const email = req.params.email;
 
   const participantIndex = participantsData.participants.findIndex(participant => participant.Participant.email === email);
