@@ -1,21 +1,13 @@
-const auth = require('basic-auth');
 const fs = require('fs');
+const auth = require('basic-auth');
 
 const users = JSON.parse(fs.readFileSync('./users.json'));
 
 const authenticateAdmin = (req, res, next) => {
   try {
-    const authHeader = req.headers.authorization;
+    const user = auth(req);
 
-    if (!authHeader || !authHeader.startsWith('Basic ')) {
-      throw new Error('Unauthorized');
-    }
-
-    const base64Credentials = authHeader.split(' ')[1];
-    const credentials = Buffer.from(base64Credentials, 'base64').toString('utf-8');
-    const [username, password] = credentials.split(':');
-
-    if (username !== users.admin.login || password !== users.admin.password) {
+    if (!user || user.name !== users.admin.login || user.pass !== users.admin.password) {
       throw new Error('Unauthorized');
     }
 
