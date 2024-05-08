@@ -1,1 +1,1 @@
-{"participants":[]}
+{"participants":[{"Participant":{"email":"participant1@example.com","firstname":"John","lastname":"Doe","dob":"1995-12-31"},"Work":{"companyname":"Soap Corp","salary":600000,"currency":"NOK"},"Home":{"country":"Norway","city":"Ski"}}]}
